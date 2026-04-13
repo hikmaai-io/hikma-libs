@@ -1,4 +1,4 @@
-module github.com/hikmaai-io/hikma-platform/hlog
+module github.com/hikmaai-io/hikma-libs/hlog
 
 go 1.26.2
 

@@ -1,4 +1,4 @@
-# ABOUTME: CI pipeline for hikma-platform shared Go libraries.
+# ABOUTME: CI pipeline for hikma-libs shared Go libraries.
 # ABOUTME: Runs on PRs to dev and pushes to dev: format check, vet, vulncheck, tests, lint.
 
 name: CI
