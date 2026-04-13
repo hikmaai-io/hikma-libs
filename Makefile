@@ -1,4 +1,4 @@
-# ABOUTME: Build targets for hikma-platform shared Go libraries.
+# ABOUTME: Build targets for hikma-libs shared Go libraries.
 # ABOUTME: Each subdirectory is a separate Go module.
 
 .PHONY: test fmt vet lint vulncheck check
@@ -13,7 +13,7 @@ fmt:
 
 ## Static analysis
 vet:
-	go vet ./hlog/...
+	cd hlog && go vet ./...
 
 ## Run golangci-lint
 lint:

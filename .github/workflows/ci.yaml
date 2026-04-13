@@ -39,7 +39,7 @@ jobs:
           fi
 
       - name: Vet
-        run: go vet ./hlog/...
+        run: cd hlog && go vet ./...
 
       - name: Vulnerability check
         run: |
