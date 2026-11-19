@@ -29,7 +29,7 @@ Callers must use `*Context` log methods (`InfoContext`, `WarnContext`, etc.) for
 
 ### Dependencies
 
-Single dependency: `go.opentelemetry.io/otel/trace` (API only, no SDK).
+OpenTelemetry trace and W3C propagation APIs only; no SDK or collector is required. For a privileged service hop that must not carry a caller's trace metadata, use `StartIsolatedHop` on a fresh outgoing request and `ReceiveIsolatedHop` **after** authentication. Use the returned contexts with `InfoContext`. A shared trace ID correlates logs; it is never a receipt or grant.
 
 ### Consumers
 
