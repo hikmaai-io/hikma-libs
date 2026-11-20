@@ -29,7 +29,7 @@ Callers must use `*Context` log methods (`InfoContext`, `WarnContext`, etc.) for
 
 ### Dependencies
 
-OpenTelemetry trace and W3C propagation APIs only; no SDK or collector is required. For a privileged service hop that must not carry a caller's trace metadata, use `StartIsolatedHop` on a fresh outgoing request and `ReceiveIsolatedHop` **after** authentication. Use the returned contexts with `InfoContext`. A shared trace ID correlates logs; it is never a receipt or grant.
+OpenTelemetry trace and W3C propagation APIs only; no SDK or collector is required. For a privileged service hop that must not carry a caller's trace metadata, use `StartIsolatedHop` on a fresh outgoing request and `ReceiveIsolatedHop` **after** authentication. At the sender, log with the original request context to keep its `trace_id`; attach the outbound hop's trace ID as a separate peer field. At the authenticated receiver, log with the context returned by `ReceiveIsolatedHop`. A shared trace ID correlates logs; it is never a receipt or grant.
 
 ### Consumers
 
@@ -51,7 +51,7 @@ make lint     # golangci-lint
 
 ## Conventions
 
-- Go 1.26.2
+- Go 1.26.11 or later
 - Each module has its own `go.mod`
 - Minimal dependencies (stdlib + OTel trace API)
 - Feature branches -> PRs to dev -> main

@@ -1,6 +1,6 @@
 module github.com/hikmaai-io/hikma-libs/hlog
 
-go 1.26.2
+go 1.26.11
 
 require (
 	go.opentelemetry.io/otel v1.40.0

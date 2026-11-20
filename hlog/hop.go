@@ -12,7 +12,9 @@ import (
 )
 
 // StartIsolatedHop sets a new W3C traceparent on an outbound request and returns
-// its local logging context. Unlike normal trace propagation it does not copy the
+// its hop context. A sender preserving its request trace should log with ctx
+// and attach trace.SpanContextFromContext(hop).TraceID() as a separate field.
+// Unlike normal trace propagation it does not copy the
 // caller's trace identity, sampling decision or vendor data onto the private hop.
 // Use an independently constructed request, not a clone of inbound headers.
 func StartIsolatedHop(ctx context.Context, header http.Header) context.Context {
