@@ -7,6 +7,8 @@ import (
 	"bytes"
 	"encoding/json"
 	"log/slog"
+	"os"
+	"os/exec"
 	"testing"
 )
 
@@ -79,10 +81,27 @@ func TestNewNoService(t *testing.T) {
 }
 
 func TestNewDefaultWriter(t *testing.T) {
-	// Verify New doesn't panic with nil Writer (defaults to stderr).
-	logger := New(Options{Level: "error"})
-	if logger == nil {
-		t.Fatal("New returned nil")
+	const message = "default writer probe"
+	if os.Getenv("HLOG_TEST_DEFAULT_WRITER") == "1" {
+		New(Options{}).Error(message)
+		return
+	}
+
+	cmd := exec.CommandContext(t.Context(), os.Args[0], "-test.run=^TestNewDefaultWriter$")
+	cmd.Env = append(os.Environ(), "HLOG_TEST_DEFAULT_WRITER=1")
+	var stderr bytes.Buffer
+	cmd.Stderr = &stderr
+	if err := cmd.Run(); err != nil {
+		t.Fatalf("logging subprocess: %v: %s", err, stderr.String())
+	}
+	var entry struct {
+		Message string `json:"msg"`
+	}
+	if err := json.Unmarshal(stderr.Bytes(), &entry); err != nil {
+		t.Fatalf("expected a JSON record on stderr: %v", err)
+	}
+	if entry.Message != message {
+		t.Errorf("stderr message = %q, want %q", entry.Message, message)
 	}
 }
 
